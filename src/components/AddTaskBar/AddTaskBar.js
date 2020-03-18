@@ -10,7 +10,7 @@ export default class AddTaskBar extends Component {
                 <form className="addtaskbar__form">
                     <input type="text" placeholder="Enter the title of task"></input>
                 </form>
-                <button class="addtaskbar__btn">Add</button>
+                <button className="addtaskbar__btn">Add</button>
             </div>
         );
     }

@@ -1,46 +1,24 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import './TaskBar.sass';
 
-export default class TaskBar extends Component {
+import TaskBarItem from './../TaskBarItem/TaskBarItem';
 
-    render() {
+const TaskBar = (props) => {
+
+    const data = props.data;
+
+    const tasks = data.map((task) => {
         return(
-            <div className="taskbar">
-                <div className="taskbar__task">
-                    <div className="taskbar__title">Drink Coffee</div>
-                    <div className="taskbar__buttons">
-                        <div className="taskbar__trash">
-                            <i className="fa fa-trash-o"></i>
-                        </div>
-                        <div className="taskbar__exclamation">
-                            <i className="fa fa-exclamation"></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="taskbar__task">
-                    <div className="taskbar__title">Drink Coffee</div>
-                    <div className="taskbar__buttons">
-                        <div className="taskbar__trash">
-                            <i className="fa fa-trash-o"></i>
-                        </div>
-                        <div className="taskbar__exclamation">
-                            <i className="fa fa-exclamation"></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="taskbar__task">
-                    <div className="taskbar__title">Drink Coffee</div>
-                    <div className="taskbar__buttons">
-                        <div className="taskbar__trash">
-                            <i className="fa fa-trash-o"></i>
-                        </div>
-                        <div className="taskbar__exclamation">
-                            <i className="fa fa-exclamation"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <TaskBarItem title={task.title}/>
         );
-    }
+    });
+
+    return(
+        <div className="taskbar">
+            { tasks }
+        </div>
+    );   
 }
+
+export default TaskBar;

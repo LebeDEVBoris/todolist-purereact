@@ -71,22 +71,87 @@ export default class App extends Component {
         this.setState({data: arr});
     }
 
+    onSearchChange = (val) => {
+        this.setState({searchBy: val});
+    }
+
+    onSearch = (items, substring) => {
+        if (substring.length === 0) return items;
+        return items.filter((item) => {
+            substring.toLowerCase();
+            const title = item.title.toLowerCase();
+            return title.indexOf(substring) > -1;
+        });
+    }
+
+    onFilterChange = (val) => {
+        this.setState({filter: val});
+    }
+
+    onFilter = (mode) => {
+        let arr = [];
+
+        if (mode === 'all') {
+            return this.state.data;
+        }
+
+        if (mode === 'active') {
+            this.state.data.forEach((elem) => {
+                if (!elem.done) {
+                    arr.push(elem);
+                }
+            });
+        }
+
+        if (mode === 'done') {
+            this.state.data.forEach((elem) => {
+                if (elem.done) {
+                    arr.push(elem);
+                }
+            });
+        }
+
+        if (mode === 'important') {
+            this.state.data.forEach((elem) => {
+                if (elem.important) {
+                    arr.push(elem);
+                }
+            });
+        }
+        return arr;
+    }
+
+    componentDidMount() {
+        this.onFilter(this.state.filter);
+    }
+
+
     render() {
         
         let counterTasks = this.counterTasks();
         let counterDoneTasks = this.counterDoneTasks();
+        
+        const filterElems = this.onFilter(this.state.filter);
+        const elems = this.onSearch(filterElems, this.state.searchBy);
     
+
         return(
            <div className="wrap">
                 <div className="app">
-                    <Header counterTasks={counterTasks} counterDoneTasks={counterDoneTasks} />
-                    <SearchBar />
+                    <Header 
+                        counterTasks={counterTasks} 
+                        counterDoneTasks={counterDoneTasks} 
+                    />
+                    <SearchBar 
+                        onSearchChange={this.onSearchChange}
+                        onFilterChange={this.onFilterChange}
+                    />
                     <TaskBar 
-                        data={this.state.data} 
+                        data={elems} 
                         onDelete={this.onDelete}
                         onImportant={this.onImportant}
                         onDone={this.onDone}
-                        />
+                    />
                     <AddTaskBar onItemAdd={this.onItemAdd}/>
                 </div>
             </div>

@@ -5,12 +5,18 @@ import './TaskBar.sass';
 import TaskBarItem from './../TaskBarItem/TaskBarItem';
 
 const TaskBar = (props) => {
-
-    const data = props.data;
+    
+    const {data, onDelete, onImportant, onDone} = props;
 
     const tasks = data.map((task) => {
         return(
-            <TaskBarItem title={task.title}/>
+            <TaskBarItem 
+            data={task}
+            onDelete={onDelete}
+            onImportant={onImportant}
+            onDone={onDone}
+            key={task.id}
+            />
         );
     });
 

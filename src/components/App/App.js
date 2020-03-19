@@ -8,13 +8,35 @@ import AddTaskBar from './../AddTaskBar/AddTaskBar';
 
 export default class App extends Component {
 
+    idForNewElems = 4;
+
     state = {
         data: [
             {title: 'Drink Coffee', important: false, done: false, id: 1},
             {title: 'Create application on pure React', important: false, done: false, id: 2},
             {title: 'Have a lunch', important: false, done: false, id: 3}
-        ]
+        ],
+        searchBy: '',
+        filter: 'all'
     };
+
+    counterTasks = () => {
+        let counter = 0;
+        this.state.data.forEach((elem) => {
+            counter++;
+        });
+        return counter;
+    }
+
+    counterDoneTasks = () => {
+        let counter = 0;
+        this.state.data.forEach((elem) => {
+            if (elem.done === true) {
+                counter++;
+            }
+        });
+        return counter;
+    }
 
     onDelete = (id) => {
         const idx = this.state.data.findIndex((el) => el.id === id);
@@ -41,11 +63,23 @@ export default class App extends Component {
         this.setState({data: arr});
     }
 
+    onItemAdd = (title) => {
+        const elem = {title: title, important: false, done: false, id: this.idForNewElems};
+        const arr = this.state.data;
+        arr.push(elem);
+        this.idForNewElems++;
+        this.setState({data: arr});
+    }
+
     render() {
+        
+        let counterTasks = this.counterTasks();
+        let counterDoneTasks = this.counterDoneTasks();
+    
         return(
            <div className="wrap">
                 <div className="app">
-                    <Header />
+                    <Header counterTasks={counterTasks} counterDoneTasks={counterDoneTasks} />
                     <SearchBar />
                     <TaskBar 
                         data={this.state.data} 
@@ -53,7 +87,7 @@ export default class App extends Component {
                         onImportant={this.onImportant}
                         onDone={this.onDone}
                         />
-                    <AddTaskBar />
+                    <AddTaskBar onItemAdd={this.onItemAdd}/>
                 </div>
             </div>
         );

@@ -78,7 +78,7 @@ export default class App extends Component {
     onSearch = (items, substring) => {
         if (substring.length === 0) return items;
         return items.filter((item) => {
-            substring.toLowerCase();
+            substring = substring.toLowerCase();
             const title = item.title.toLowerCase();
             return title.indexOf(substring) > -1;
         });
